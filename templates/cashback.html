@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/blah.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Cash Back Optimizer</h1>
+            <span class="subheading"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<main role="main" class="container">
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-12 col-md-offset align="center"">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+    <div class="formwrapper">
+        <legend class="border-bottom mb-4">Enter monthly credit card spendings below ($):</legend>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+                <div class="form-group row">{{ form.total_spend.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.total_spend(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.groceries.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.groceries(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.gas.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.gas(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.restaurants.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.restaurants(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.entertainment.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.entertainment(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.travel.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.travel(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.cell_carrier.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.cell_carrier(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.gym.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.gym(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.online_shopping.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.online_shopping(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.amazon.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.amazon(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.home_improvement.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.home_improvement(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.sporting_goods.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.sporting_goods(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.apple.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.apple(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.foreign_transaction.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.foreign_transaction(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.rideshare.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.rideshare(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.amazon_member.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.amazon_member(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.costco_member.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.costco_member(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.sams_member.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.sams_member(class="form=control form-control-lg")}}</div></div>
+
+
+                <div class="form-group row">{{ form.boa_amt.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.boa_amt(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.num_cards.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.num_cards(class="form=control form-control-lg")}}</div></div>
+
+            <div class="form-group col-sm-6"><div class="col-sm-4">{{ form.submit(class="btn btn-outline-info")}}</div>
+
+            </div>
+        </form>
+    </div>
+        </div>
+      </div>
+    </main>
+{% endblock content %}
