@@ -53,12 +53,12 @@ def contact():
 
 @app.route('/cashback', methods=['GET', 'POST'])
 def cashback():
-    best_cards, select_cat = None, {}
+    best_cards, select_cat, member_rec = None, {}, {}
     form = CreditCardForm()
     if form.validate_on_submit():
-        best_cards, select_cat = form.calculate_cb()
+        best_cards, select_cat, member_rec = form.calculate_cb()
     return render_template('cashback.html', title='Cash Back Calculator', form=form,
-                           best_cards=best_cards, select_cat=select_cat)
+                           best_cards=best_cards, select_cat=select_cat, member_rec=member_rec)
 
 
 if __name__ == '__main__':

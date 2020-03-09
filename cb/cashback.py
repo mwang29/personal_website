@@ -51,79 +51,121 @@ def process_data(boa_multiplier):
 
 
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
-    max_cb = 0
-    member = {}
+    max_cb, best_combo = 0, False
+    if num_cards > 4:
+        additional_cards = num_cards - 4
+        num_cards = 4
+    else:
+        additional_cards = 0
     # Iterate through all combinations based on rules set by dictionary
     for comb in combinations(sorted(comb_dict), num_cards):
         for uniquecomb in product(*[comb_dict[i] for i in comb]):
-            temp_cb = 0
-            if 7 in uniquecomb and num_cards > 1:
-                # calculate discover cash back advantage
-                # calculate earnings in cats
-                temp_cb = sum(np.multiply(
-                    card_vectors.iloc[7, :].to_numpy(), spend))
-                # get non-discover cards in uniquecomb
-
-                other_cards = np.array(
-                    [card for card in uniquecomb if card != 7])
-                cb_indices = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[
-                    0]  # indices of discover categories
-                other_cb = sum(np.multiply(
-                    card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
-                # discover cash back in cats - other cards in those same cats over 4
-                temp_cb = (temp_cb - other_cb) / 4
-                all_other_cb = sum(np.multiply(card_vectors.iloc[other_cards, :].to_numpy()[
-                                   0], spend))  # leave out discover
-                temp_cb += all_other_cb  # add net cb to all other cards
-            elif 7 in uniquecomb:
-                temp_cb = sum(np.multiply(
-                    card_vectors.iloc[7, :].to_numpy(), spend)) / 4
-            else:
-                best_cb = card_vectors.iloc[list(uniquecomb), :].max(axis=0)
-                temp_cb = sum(np.multiply(best_cb, spend))
-            # Annual fee deductions
-            if 1 in uniquecomb:
-                temp_cb -= 95 / 12
-            if 6 in uniquecomb:
-                temp_cb -= 99 / 12
-            if 15 in uniquecomb:
-                temp_cb -= 95 / 12
-            # Membership costs
-            if 11 in uniquecomb and not attr['sams_member']:
-                temp_cb -= 45 / 12
-            if 3 in uniquecomb and not attr['amazon_member']:
-                temp_cb -= 119 / 12
-            if 0 in uniquecomb and not attr['costco_member']:
-                temp_cb -= 60 / 12
-            if temp_cb > max_cb:
+            temp_cb = calc_temp_cb(card_vectors, spend,
+                                   uniquecomb, num_cards, attr)
+            if temp_cb > max_cb:  # if we find a better combination, then...
                 max_cb = temp_cb
                 best_combo = uniquecomb
-                if 11 in uniquecomb and not attr['sams_member']:
-                    # We will recommend getting a sam's membership
-                    member['SC'] = True
-                if 3 in uniquecomb and not attr['amazon_member']:
-                    # Recommend getting amazon membership
-                    member['AMZN'] = True
-                if 0 in uniquecomb and not attr['costco_member']:
-                    # Recommend getting costco membership
-                    member['COSTCO'] = True
+                member_rec = recommend_membership(attr, uniquecomb)
+
+    if additional_cards > 0:
+        print(comb_dict)
+        best_combo = list(best_combo)
+        before_cb = max_cb
+        all_cards = range(len(comb_dict))
+        us_bank = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+        boa = [25, 26, 27, 28]
+        us_bank_overlap = [i for i in us_bank if i in best_combo]
+        boa_overlap = [i for i in boa if i in best_combo]
+        if us_bank_overlap:
+            all_cards = [i for i in all_cards if i not in us_bank]
+        if boa_overlap:
+            all_cards = [i for i in all_cards if i not in us_bank]
+
+        for c in range(additional_cards):
+            for new_card in all_cards:
+                temp_cb = calc_temp_cb(
+                    card_vectors, spend, best_combo + [new_card], num_cards, attr)
+                if temp_cb > max_cb:
+                    max_cb = temp_cb
+                    additional_card = new_card
+            if max_cb > before_cb:
+                best_combo.append(additional_card)
+                before_cb = max_cb
 
     select_cat = {}
     # Which categories of choose cards selected?
-    for card in best_combo:
-        if card_names[card] == card_names[15]:
-            s = card_vectors.iloc[card]
-            select_cat['us_bank'] = list(s.axes[0][s > 0])
-        if card_names[card] == card_names[25]:
-            s = card_vectors.iloc[card]
-            select_cat['boa'] = list(s.axes[0][s > 0])
-    return max_cb, best_combo, member, select_cat
+    if best_combo:  # if we entered values
+        for card in best_combo:
+            if card_names[card] == card_names[15]:
+                s = card_vectors.iloc[card]
+                select_cat['us_bank'] = list(s.axes[0][s > 0])
+            if card_names[card] == card_names[25]:
+                s = card_vectors.iloc[card]
+                select_cat['boa'] = list(s.axes[0][s > 0])
+    return max_cb, best_combo, member_rec, select_cat
 
 
 def calc_stats(spend, max_cb):
     avg_cb = max_cb / sum(spend)
     annual_cb = max_cb * 12
     return avg_cb, annual_cb
+
+
+def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
+    # calculate discover cash back advantage
+    # calculate earnings in cats
+    if 7 in uniquecomb and num_cards > 1:
+        temp_cb = sum(np.multiply(
+            card_vectors.iloc[7, :].to_numpy(), spend))
+        # get non-discover cards in uniquecomb
+
+        other_cards = np.array(
+            [card for card in uniquecomb if card != 7])
+        cb_indices = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[
+            0]  # indices of discover categories
+        other_cb = sum(np.multiply(
+            card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
+        # discover cash back in cats - other cards in those same cats over 4
+        temp_cb = (temp_cb - other_cb) / 4
+        all_other_cb = sum(np.multiply(card_vectors.iloc[other_cards, :].to_numpy()[
+                           0], spend))  # leave out discover
+        temp_cb += all_other_cb  # add net cb to all other cards
+    elif 7 in uniquecomb:
+        temp_cb = sum(np.multiply(
+            card_vectors.iloc[7, :].to_numpy(), spend)) / 4
+    else:
+        best_cb = card_vectors.iloc[list(uniquecomb), :].max(axis=0)
+        temp_cb = sum(np.multiply(best_cb, spend))
+
+    if 1 in uniquecomb:
+        temp_cb -= 95 / 12
+    if 6 in uniquecomb:
+        temp_cb -= 99 / 12
+    if 15 in uniquecomb:
+        temp_cb -= 95 / 12
+    # Membership costs
+    if 11 in uniquecomb and not attr['sams_member']:
+        temp_cb -= 45 / 12
+    if 3 in uniquecomb and not attr['amazon_member']:
+        temp_cb -= 119 / 12
+    if 0 in uniquecomb and not attr['costco_member']:
+        temp_cb -= 60 / 12
+
+    return temp_cb
+
+
+def recommend_membership(attr, uniquecomb):
+    member_rec = {}
+    if 11 in uniquecomb and not attr['sams_member']:
+        # We will recommend getting a sam's membership
+        member_rec['SC'] = True
+    if 3 in uniquecomb and not attr['amazon_member']:
+        # Recommend getting amazon membership
+        member_rec['AMZN'] = True
+    if 0 in uniquecomb and not attr['costco_member']:
+        # Recommend getting costco membership
+        member_rec['COSTCO'] = True
+    return member_rec
 
 
 if __name__ == "__main__":
@@ -169,6 +211,8 @@ if __name__ == "__main__":
             boa_multiplier = 1.5
         elif boa_amt >= 20000:
             boa_multiplier = 1.25
+    else:
+        boa_multiplier = 1
 
     # Process data and make calculations
 
