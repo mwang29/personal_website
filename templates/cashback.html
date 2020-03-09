@@ -55,6 +55,9 @@
                 <div class="form-group row">{{ form.travel.label(class="form=control-label col-sm-6")}}
                 <div class="col-sm-4"> {{ form.travel(class="form=control form-control-lg")}}</div></div>
 
+                <div class="form-group row">{{ form.utilities.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.utilities(class="form=control form-control-lg")}}</div></div>
+
                 <div class="form-group row">{{ form.cell_carrier.label(class="form=control-label col-sm-6")}}
                 <div class="col-sm-4"> {{ form.cell_carrier(class="form=control form-control-lg")}}</div></div>
 
@@ -69,6 +72,9 @@
 
                 <div class="form-group row">{{ form.home_improvement.label(class="form=control-label col-sm-6")}}
                 <div class="col-sm-4"> {{ form.home_improvement(class="form=control form-control-lg")}}</div></div>
+
+                <div class="form-group row">{{ form.internet.label(class="form=control-label col-sm-6")}}
+                <div class="col-sm-4"> {{ form.internet(class="form=control form-control-lg")}}</div></div>
 
                 <div class="form-group row">{{ form.sporting_goods.label(class="form=control-label col-sm-6")}}
                 <div class="col-sm-4"> {{ form.sporting_goods(class="form=control form-control-lg")}}</div></div>
@@ -103,10 +109,13 @@
             </div>
         </form>
 
-        {% if spend != None %}
-{{spend}}
-{% else %}
-Did not calculate!
+{% if output != None %}
+<br>
+    <h2>Your optimal selection of credit cards are:</h2>
+    <br>
+    {% for card in output -%}
+        <li>{{card}}</li>
+    {% endfor %}
 {% endif %}
     </div>
         </div>

@@ -55,10 +55,10 @@ def contact():
 def cashback():
     form = CreditCardForm()
     if request.method == 'POST':
-        spend = form.calculate_cb()
+        output = form.calculate_cb()
     else:
-        spend = None
-    return render_template('cashback.html', title='Cash Back Calculator', form=form, spend=spend)
+        output = None
+    return render_template('cashback.html', title='Cash Back Calculator', form=form, output=output)
 
 
 if __name__ == '__main__':

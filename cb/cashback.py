@@ -3,7 +3,7 @@ import numpy as np
 from itertools import combinations, product
 
 
-def process_data():
+def process_data(boa_multiplier):
     # Create card vectors
     data = pd.read_csv('card_data.csv')
     categories = list(data.columns)[2:]
@@ -35,7 +35,9 @@ def process_data():
 
     card_vectors = card_vectors.drop(
         index=card_vectors.index[[0, 4]]).reset_index(drop=True)
+
     card_vectors = card_vectors.append(us_bank_df, ignore_index=True)
+    boa_df *= boa_multiplier
     card_vectors = card_vectors.append(boa_df, ignore_index=True)
     del card_names[4]
     del card_names[0]
@@ -48,7 +50,7 @@ def process_data():
     return comb_dict, card_vectors, card_names
 
 
-def calc_cb(comb_dict, num_cards, card_vectors, spend, attr):
+def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     max_cb = 0
     member = {}
     # Iterate through all combinations based on rules set by dictionary
@@ -62,9 +64,15 @@ def calc_cb(comb_dict, num_cards, card_vectors, spend, attr):
                 temp_cb = sum(np.multiply(
                     card_vectors.iloc[7, :].to_numpy(), spend))
                 # get non-discover cards in uniquecomb
-                other_cards = [card for card in uniquecomb if card != 7]
-                cb_indices = list(card_vectors.iloc[7, :].to_numpy().nonzero())[
+
+                other_cards = np.array(
+                    [card for card in uniquecomb if card != 7])
+                print(other_cards)
+                print(type(other_cards))
+                cb_indices = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[
                     0]  # indices of discover categories
+                print(cb_indices)
+                print(type(cb_indices))
                 other_cb = sum(np.multiply(
                     card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
                 # discover cash back in cats - other cards in those same cats over 4
@@ -146,7 +154,7 @@ if __name__ == "__main__":
     spend.append(int(input("Apple store: $")))
     spend.append(int(input("Foreign transactions: $")))
     spend.append(int(input("Rideshare (Uber, Lyft): $")))
-    spend.append(max(total_spend - sum(spend), 0))  # Other expenses
+    spend.append(int(max(total_spend - sum(spend), 0)))  # Other expenses
     spend = np.array(spend)
 
     attr['amazon_member'] = True if input(
@@ -161,20 +169,18 @@ if __name__ == "__main__":
         boa_amt = int(
             input("How much capital do you have in existing BoA accounts?: "))
         if boa_amt >= 100000:
-            multiplier = 1.75
+            boa_multiplier = 1.75
         elif boa_amt >= 50000:
-            multiplier = 1.5
+            boa_multiplier = 1.5
         elif boa_amt >= 20000:
-            multiplier = 1.25
+            boa_multiplier = 1.25
 
     # Process data and make calculations
 
-    data = pd.read_csv('card_data.csv')
-
-    comb_dict, card_vectors, card_names = process_data()
+    comb_dict, card_vectors, card_names = process_data(boa_multiplier)
     num_cards = int(input("Preferred number of cards?\n"))
     max_cb, best_combo, member, select_cat = calc_cb(
-        comb_dict, num_cards, card_vectors, spend, attr)
+        comb_dict, num_cards, card_vectors, card_names, spend, attr)
     avg_cb, annual_cb = calc_stats(spend, max_cb)
 
     cards = [card_names[i] for i in best_combo]
