@@ -1,59 +1,53 @@
 import numpy as np
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField, SelectField
+from wtforms import DecimalField, IntegerField, SubmitField, SelectField, BooleanField
 from wtforms.validators import DataRequired, InputRequired, NumberRange
 from cb.cashback import process_data, calc_cb, calc_stats
 
 
 class CreditCardForm(FlaskForm):
-    total_spend = IntegerField('Total Monthly Spend',
+    total_spend = DecimalField('Total Monthly Spend', places=2, rounding=None,
                                validators=[DataRequired()])  # required field
-    groceries = IntegerField('Groceries',
+    groceries = DecimalField('Groceries',
                              validators=[DataRequired()])
-    gas = IntegerField('Gas',
+    gas = DecimalField('Gas',
                        validators=[DataRequired()])
-    restaurants = IntegerField('Restaurants',
+    restaurants = DecimalField('Restaurants',
                                validators=[DataRequired()])
-    entertainment = IntegerField('Entertainment',
+    entertainment = DecimalField('Entertainment',
                                  validators=[DataRequired()])
-    travel = IntegerField('Travel',
+    travel = DecimalField('Travel',
                           validators=[DataRequired()])
-    utilities = IntegerField('Utilities',
+    utilities = DecimalField('Utilities',
                              validators=[DataRequired()])
-    cell_carrier = IntegerField('Cell Phone Carrier',
+    cell_carrier = DecimalField('Cell Phone Carrier',
                                 validators=[DataRequired()])
-    gym = IntegerField('Gym/Fitness Memberships',
+    gym = DecimalField('Gym/Fitness Memberships',
                        validators=[DataRequired()])
-    online_shopping = IntegerField('Online Shopping, not including Amazon',
+    online_shopping = DecimalField('Online Shopping, not including Amazon',
                                    validators=[DataRequired()])
-    amazon = IntegerField('Amazon',
+    amazon = DecimalField('Amazon',
                           validators=[DataRequired()])
-    home_improvement = IntegerField('Home Improvement',
+    home_improvement = DecimalField('Home Improvement',
                                     validators=[DataRequired()])
-    internet = IntegerField('Internet, Cable, Streaming Services',
+    internet = DecimalField('Internet, Cable, Streaming Services',
                             validators=[DataRequired()])
-    sporting_goods = IntegerField('Sporting Good Stores',
+    sporting_goods = DecimalField('Sporting Good Stores',
                                   validators=[DataRequired()])
-    apple = IntegerField('Apple Store',
+    apple = DecimalField('Apple Store',
                          validators=[DataRequired()])
-    foreign_transaction = IntegerField('Foreign Transactions',
+    foreign_transaction = DecimalField('Foreign Transactions',
                                        validators=[DataRequired()])
-    rideshare = IntegerField('Rideshares (Uber/Lyft)',
+    rideshare = DecimalField('Rideshares (Uber/Lyft)',
                              validators=[DataRequired()])
     num_cards = IntegerField('How many credit cards do you prefer? (1-6)',
                              validators=[InputRequired(),
                                          NumberRange(min=1, max=6,
                                                      message="Please enter a number between 1 and 6")])
-    amazon_member = SelectField('Are you an Amazon member?',
-                                choices=[(True, 'Yes'), (False, 'No')],
-                                validators=[InputRequired()])
-    costco_member = SelectField("Are you a Costco member?",
-                                choices=[(True, 'Yes'), (False, 'No')],
-                                validators=[InputRequired()])
-    sams_member = SelectField("Are you a Sam's Club member?",
-                              choices=[(True, 'Yes'), (False, 'No')],
-                              validators=[InputRequired()])
-    boa_amt = IntegerField('Capital in existing Bank of America accounts (optional):',
+    amazon_member = BooleanField('Amazon Member:')
+    costco_member = BooleanField('Costco Member:')
+    sams_member = BooleanField("Sam's Club Member:")
+    boa_amt = DecimalField('Capital in existing Bank of America accounts (optional):',
                            default=0)
 
     submit = SubmitField('Calculate!')
@@ -81,17 +75,17 @@ class CreditCardForm(FlaskForm):
 
     def get_spend_attr(self):
         total_spend = self.total_spend.data
-        spend = [self.groceries.data, self.gas.data,
-                 self.restaurants.data, self.entertainment.data,
-                 self.travel.data, self.utilities.data,
-                 self.cell_carrier.data, self.gym.data,
-                 self.online_shopping.data, self.amazon.data,
-                 self.home_improvement.data, self.internet.data,
-                 self.sporting_goods.data, self.apple.data,
-                 self.foreign_transaction.data, self.rideshare.data]
-
-        other = max(total_spend - sum(spend), 0)
-        spend.append(other)
+        temp_spend = [self.groceries.data, self.gas.data,
+                      self.restaurants.data, self.entertainment.data,
+                      self.travel.data, self.utilities.data,
+                      self.cell_carrier.data, self.gym.data,
+                      self.online_shopping.data, self.amazon.data,
+                      self.home_improvement.data, self.internet.data,
+                      self.sporting_goods.data, self.apple.data,
+                      self.foreign_transaction.data, self.rideshare.data]
+        other = max(total_spend - sum(temp_spend), 0)
+        temp_spend.append(other)
+        spend = [int(i) for i in temp_spend]
         spend = np.array(spend)
 
         attr = {'amazon_member': self.amazon_member.data,
