@@ -1,3 +1,4 @@
+import numpy as np
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired, InputRequired
@@ -41,18 +42,23 @@ class CreditCardForm(FlaskForm):
                               choices=[(True, 'Yes'), (False, 'No')],
                               validators=[InputRequired()])
     boa_amt = IntegerField(
-        'Capital in existing Bank of America accounts (optional):')
+        'Capital in existing Bank of America accounts (optional):', default=0)
     submit = SubmitField('Calculate!')
 
     def calculate_cb(self):
-        spend = []
-        spend.append(self.total_spend.data)  # etc etc
-        attr = []
-        attr.append(self.amazon_member)  # etc etc
-        return spend
+        total_spend = self.total_spend.data
+        spend = np.array([self.groceries.data, self.gas.data,
+                          self.restaurants.data, self.entertainment.data, self.travel.data,
+                          self.cell_carrier.data, self.gym.data, self.online_shopping.data,
+                          self.amazon.data, self.home_improvement.data,
+                          self.internet.data, self.sporting_goods.data, self.apple.data,
+                          self.foreign_transaction.data, self.rideshare.data,
+                          max(total_spend - sum(spend), 0)])  # etc etc
+        attr = {'amazon_member': self.amazon_member.data, 'costo_member': self.costco_member.data,
+                'sams_member': self.sams_member.data]  # etc etc
         comb_dict, card_vectors, card_names = process_data()
-        num_cards = int(input("Preferred number of cards?\n"))
+        num_cards = self.num_cards.data
         max_cb, best_combo, member, select_cat = calc_cb(
             comb_dict, num_cards, card_vectors, spend, attr)
         avg_cb, annual_cb = calc_stats(spend, max_cb)
-        return 5
+        return best_combo

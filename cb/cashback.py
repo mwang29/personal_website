@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     data = pd.read_csv('card_data.csv')
 
-    comb_dict, card_vectors, card_names = process_data(data)
+    comb_dict, card_vectors, card_names = process_data()
     num_cards = int(input("Preferred number of cards?\n"))
     max_cb, best_combo, member, select_cat = calc_cb(
         comb_dict, num_cards, card_vectors, spend, attr)

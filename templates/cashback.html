@@ -33,7 +33,8 @@
 
     <div class="formwrapper">
         <legend class="border-bottom mb-4">Enter monthly credit card spendings below ($):</legend>
-        <form method="POST" action="">
+        <form method="POST" action="/cashback">
+            {{ form.csrf_token }}
             {{ form.hidden_tag() }}
 
                 <div class="form-group row">{{ form.total_spend.label(class="form=control-label col-sm-6")}}
@@ -101,6 +102,12 @@
 
             </div>
         </form>
+
+        {% if spend != None %}
+{{spend}}
+{% else %}
+Did not calculate!
+{% endif %}
     </div>
         </div>
       </div>
