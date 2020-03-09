@@ -56,7 +56,6 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     # Iterate through all combinations based on rules set by dictionary
     for comb in combinations(sorted(comb_dict), num_cards):
         for uniquecomb in product(*[comb_dict[i] for i in comb]):
-            # print(card_vectors.iloc[list(uniquecomb),:].max(axis=0))
             temp_cb = 0
             if 7 in uniquecomb and num_cards > 1:
                 # calculate discover cash back advantage
@@ -67,12 +66,8 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
 
                 other_cards = np.array(
                     [card for card in uniquecomb if card != 7])
-                print(other_cards)
-                print(type(other_cards))
                 cb_indices = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[
                     0]  # indices of discover categories
-                print(cb_indices)
-                print(type(cb_indices))
                 other_cb = sum(np.multiply(
                     card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
                 # discover cash back in cats - other cards in those same cats over 4
