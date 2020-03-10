@@ -118,8 +118,21 @@
 <br>
     <h2>Your optimal selection of credit cards are:</h2>
     <br>
-    {% for card in best_cards -%}
-        <li>{{card}}</li>
+    {% for card_row in best_cards | batch(3)%}
+        <!-- /.row -->
+        <div class="row">
+        {% for card in card_row %}
+          <div class="col-md-4 mb-5">
+            <div class="card h-100">
+              <a href="/cashback"><img class="card-img-top" src="../static/img/CC_Images/alliant.jpeg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">{{card}}</h4>
+                <p class="card-text">Test Text </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
     {% endfor %}
     {% if select_cat != {} %}
     <li>{{select_cat}}</li>

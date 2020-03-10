@@ -40,7 +40,7 @@ class CreditCardForm(FlaskForm):
                                        validators=[InputRequired()], default=0)
     rideshare = DecimalField('Rideshares (Uber/Lyft)',
                              validators=[InputRequired()], default=0)
-    num_cards = IntegerField('How many credit cards do you prefer? (1-8)',
+    num_cards = IntegerField('How many credit cards do you prefer to carry? (1-8)',
                              validators=[InputRequired(),
                                          NumberRange(min=1, max=8,
                                                      message="Please enter a number between 1 and 6")],
