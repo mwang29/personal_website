@@ -51,7 +51,7 @@ def process_data(boa_multiplier):
 
 
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
-    max_cb, best_combo = 0, False
+    max_cb, best_combo, member_rec = 0, False, {}
     if num_cards > 4:
         additional_cards = num_cards - 4
         num_cards = 4
@@ -109,6 +109,14 @@ def calc_stats(spend, max_cb):
     avg_cb = max_cb / sum(spend)
     annual_cb = max_cb * 12
     return avg_cb, annual_cb
+
+
+def cards_for_categories(card_vectors, best_combo):
+    cat_card_dict = {}
+    df = card_vectors.iloc[list(best_combo), :]
+    for column in df:
+        cat_card_dict[column] = df[column].idxmax()
+    return cat_card_dict
 
 
 def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
@@ -225,6 +233,8 @@ if __name__ == "__main__":
     cards = [card_names[i] for i in best_combo]
     for card in cards:
         print(card)
+
+    print(card_names)
 
     print(f"\nAvg cash back: {avg_cb:.4f}",
           f"\nAnnual cash back: ${annual_cb:.2f}")
