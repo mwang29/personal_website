@@ -124,16 +124,30 @@
         {% for card in card_row %}
           <div class="col-md-4 mb-5">
             <div class="card h-100">
-                {% if card_names.index(card) >= 15 and card_names.index(card) <= 26 %}
+                {% if card_names.index(card) >= 15 and card_names.index(card) <= 24 %}
                     {% set id = "usbank" %}
-                {% elif card_names.index(card) > 26 %}
+                {% elif card_names.index(card) > 24 %}
                     {% set id = "boa" %}
                 {% else %}
                     {% set id = card_names.index(card) %}
                 {% endif %}
               <a href="/cashback"><img class="card-img-top" src="../static/img/CC_Images/{{id}}.jpg" alt=""></a>
               <div class="card-body"><h4 class="card-title">{{card}}</h4>
-                <p class="card-text"> {% include 'card_descriptions/%s.html' % id %}</p>
+                {% if id == 'usbank' %}
+                    <p class="card-text"> Choose the following 2 categories for cash back:</p>
+                {% elif id == 'boa' %}
+                    <p class="card-text"> Choose the following category for cash back: </p>
+                {% else %}
+                    <p class="card-text"> {% include 'card_descriptions/%s.html' % id %}</p>
+                {% endif %}
+                {% for key, val in select_cat.items() %}
+                      {% if (key == 'us_bank' and id == "usbank") or
+                            (key == 'boa' and id == "boa") %}
+                        {% for cat in val %}
+                            <li>{{ cat }}</li>
+                        {% endfor %}
+                      {% endif %}
+                {% endfor %}
               </div>
             </div>
           </div>

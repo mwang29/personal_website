@@ -58,8 +58,8 @@ def cashback():
     if form.validate_on_submit():
         best_cards, select_cat, member_rec, card_names, cat_card_dict = form.calculate_cb()
     return render_template('cashback.html', title='Cash Back Calculator', form=form,
-                           best_cards=best_cards, select_cat=select_cat.items(), member_rec=member_rec,
-                           card_names=card_names, cat_card_dict=cat_card_dict)
+                           best_cards=best_cards, select_cat=select_cat, member_rec=member_rec,
+                           card_names=card_names)
 
 
 if __name__ == '__main__':
