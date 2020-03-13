@@ -111,13 +111,6 @@ def calc_stats(spend, max_cb):
     return avg_cb, annual_cb
 
 
-def cards_for_categories(card_vectors, best_combo):
-    cat_card_dict = {}
-    df = card_vectors.iloc[list(best_combo), :]
-    for column in df:
-        cat_card_dict[column] = df[column].idxmax()
-    return cat_card_dict
-
 
 def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
     # calculate discover cash back advantage
@@ -133,7 +126,7 @@ def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
             0]  # indices of discover categories
         other_cb = sum(np.multiply(
             card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
-        # discover cash back in cats - other cards in those same cats over 4
+        # discover cash back in cats - other cards in those same cats divided by
         temp_cb = (temp_cb - other_cb) / 4
         all_other_cb = sum(np.multiply(card_vectors.iloc[other_cards, :].to_numpy()[
                            0], spend))  # leave out discover
@@ -149,7 +142,7 @@ def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
         temp_cb -= 95 / 12
     if 6 in uniquecomb:
         temp_cb -= 99 / 12
-    if 15 in uniquecomb:
+    if 14 in uniquecomb:
         temp_cb -= 95 / 12
     # Membership costs
     if 11 in uniquecomb and not attr['sams_member']:
