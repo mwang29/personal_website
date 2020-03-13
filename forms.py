@@ -63,7 +63,7 @@ class CreditCardForm(FlaskForm):
         avg_cb, annual_cb = calc_stats(spend, max_cb)
         best_cards = self.get_best_cards(card_names, best_combo)
         cat_card_dict = cards_for_categories(card_vectors, best_combo)
-        return best_cards, select_cat, member_rec, card_names, cat_card_dict
+        return best_cards, select_cat, member_rec, card_names, cat_card_dict, boa_multiplier
 
     def get_boa_multiplier(self):
         boa_multiplier = 1
