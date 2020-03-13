@@ -9,7 +9,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
             <h2>Cash Back Optimizer</h2>
-            <span class="subheading"></span>
+            <span class="subheading">Made with love. And Python.</span>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
 
     <div class="formwrapper">
         <legend class="border-bottom mb-4">Enter monthly credit card spendings below ($):</legend>
-        <form method="POST" action="/cashback">
+        <form method="POST" action="/cashback#result">
             {{ form.hidden_tag() }}
 
                 <div class="form-group row">{{ form.total_spend.label(class="form=control-label col-sm-6")}}
@@ -116,7 +116,7 @@
 
 {% if best_cards != None %}
 <br>
-    <h2>Your optimal selection of credit cards are:</h2>
+    <h2 id='result'>Your optimal selection of credit cards is:</h2>
     <br>
     {% for card_row in best_cards | batch(3)%}
         <!-- /.row -->

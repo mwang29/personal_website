@@ -43,7 +43,7 @@ def resume():
 
 @app.route('/projects')
 def projects():
-    return render_template('projects.html', title="Projects")
+    return render_template('index.html', title="Projects")
 
 
 @app.route('/contact')
