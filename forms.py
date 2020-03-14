@@ -48,8 +48,7 @@ class CreditCardForm(FlaskForm):
     amazon_member = BooleanField('Amazon Member:')
     costco_member = BooleanField('Costco Member:')
     sams_member = BooleanField("Sam's Club Member:")
-    boa_amt = DecimalField('Capital in existing Bank of America accounts (optional):',
-                         )
+    boa_amt = DecimalField('Capital in existing Bank of America accounts', validators=[InputRequired()])
 
     submit = SubmitField('Calculate!')
 
