@@ -1,6 +1,6 @@
 Card_Name,Card_ID,Grocery,Gas,Dining,Entertainment,Travel,Utilities,Cell_Phone_Carrier,Gym/Fitness,Online_Shopping,Amazon,Home_Improvement,Cable/Satellite,Sporting_Good_Stores,Apple_Store,Foreign_Transactions,Rideshare,Other
 U.S. Bank Cash+™ Visa Signature® Card,1,0,0,0,0,0,0.05,0.05,0.05,0,0,0,0.05,0,0,-0.03,0.05,0
-Costco Anywhere Visa Card,2,0,0.04,0.03,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Costco Anywhere Visa Card,2,0,0.04,0.03,0,0.03,0,0,0,0,0,0,0,0,0,0,0,0
 Blue Cash Preferred American Express Card,3,0.06,0.03,0,0,0,0,0,0,0,0,0,0,0,0,-0.03,0.03,0
 Blue Cash Everyday American Express Card,4,0.03,0.02,0,0,0,0,0,0,0,0,0,0,0,0,-0.03,0,0
 Bank of America® Cash Rewards credit card,5,0,0.03,0.03,0,0,0,0,0,0.03,0,0.03,0,0,0,-0.03,0,0

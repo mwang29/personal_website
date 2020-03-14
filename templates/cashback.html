@@ -143,6 +143,7 @@
                                         <p>Choose the following category for <b>{{cb}}</b>% cash back: </p>
                 {% else %}
                     <p class="card-text"> {% include 'card_descriptions/%s.html' % id %}</p>
+
                 {% endif %}
                 {% for key, val in select_cat.items() %}
                       {% if (key == 'us_bank' and id == "usbank") or
@@ -151,6 +152,15 @@
                             <li>{{ cat }}</li>
                         {% endfor %}
                       {% endif %}
+                {% endfor %}
+                {% for key, val in member_rec.items() %}
+                    {% if key == 'AMZN' and id == 3 %}
+                        <p class="card-text"> Given your spending, you should purchase an Amazon membership at <b>$119/year</b></p>
+                    {% elif key == 'COSTCO' and id == 0%}
+                        <p class="card-text"> Given your spending, you should purchase a Costco membership at <b>$60/year</b></p>
+                    {% elif key == 'SC' and id == 11%}
+                        <p class="card-text"> Given your spending, you should purchase a Sam's Club membership at <b>$45/year</b></p>
+                    {% endif %}
                 {% endfor %}
               </div>
             </div>

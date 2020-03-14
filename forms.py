@@ -7,39 +7,39 @@ from cb.cashback import process_data, calc_cb, calc_stats
 
 class CreditCardForm(FlaskForm):
     total_spend = DecimalField('Total Monthly Spend', places=2, rounding=None,
-                               validators=[InputRequired()], default=0)  # required field
+                               validators=[InputRequired()])  # required field
     groceries = DecimalField('Groceries',
-                             validators=[InputRequired()], default=0)
+                             validators=[InputRequired()])
     gas = DecimalField('Gas',
-                       validators=[InputRequired()], default=0)
+                       validators=[InputRequired()])
     restaurants = DecimalField('Restaurants',
-                               validators=[InputRequired()], default=0)
+                               validators=[InputRequired()])
     entertainment = DecimalField('Entertainment',
-                                 validators=[InputRequired()], default=0)
+                                 validators=[InputRequired()])
     travel = DecimalField('Travel',
-                          validators=[InputRequired()], default=0)
+                          validators=[InputRequired()])
     utilities = DecimalField('Utilities',
-                             validators=[InputRequired()], default=0)
+                             validators=[InputRequired()])
     cell_carrier = DecimalField('Cell Phone Carrier',
-                                validators=[InputRequired()], default=0)
+                                validators=[InputRequired()])
     gym = DecimalField('Gym/Fitness Memberships',
-                       validators=[InputRequired()], default=0)
+                       validators=[InputRequired()])
     online_shopping = DecimalField('Online Shopping, not including Amazon',
-                                   validators=[InputRequired()], default=0)
+                                   validators=[InputRequired()])
     amazon = DecimalField('Amazon',
-                          validators=[InputRequired()], default=0)
+                          validators=[InputRequired()])
     home_improvement = DecimalField('Home Improvement',
-                                    validators=[InputRequired()], default=0)
+                                    validators=[InputRequired()])
     internet = DecimalField('Internet, Cable, Streaming Services',
-                            validators=[InputRequired()], default=0)
+                            validators=[InputRequired()])
     sporting_goods = DecimalField('Sporting Good Stores',
-                                  validators=[InputRequired()], default=0)
+                                  validators=[InputRequired()])
     apple = DecimalField('Apple Store',
-                         validators=[InputRequired()], default=0)
+                         validators=[InputRequired()])
     foreign_transaction = DecimalField('Foreign Transactions',
-                                       validators=[InputRequired()], default=0)
+                                       validators=[InputRequired()])
     rideshare = DecimalField('Rideshares (Uber/Lyft)',
-                             validators=[InputRequired()], default=0)
+                             validators=[InputRequired()])
     num_cards = IntegerField('How many credit cards do you prefer to carry? (1-8)',
                              validators=[InputRequired(),
                                          NumberRange(min=1, max=8,
@@ -49,7 +49,7 @@ class CreditCardForm(FlaskForm):
     costco_member = BooleanField('Costco Member:')
     sams_member = BooleanField("Sam's Club Member:")
     boa_amt = DecimalField('Capital in existing Bank of America accounts (optional):',
-                           default=0)
+                         )
 
     submit = SubmitField('Calculate!')
 
