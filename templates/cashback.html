@@ -131,7 +131,8 @@
                 {% else %}
                     {% set id = card_names.index(card) %}
                 {% endif %}
-              <a href="/cashback"><img class="card-img-top" src="../static/img/CC_Images/{{id}}.jpg" alt=""></a>
+
+              <a href="{{cc_urls[id]}}"><img class="card-img-top" src="../static/img/CC_Images/{{id}}.jpg" alt=""></a>
               <div class="card-body"><h4 class="card-title">{{card}}</h4>
                 {% if id == 'usbank' %}
                     <p class="card-text"> Choose the following 2 categories for cash back:</p>

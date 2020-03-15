@@ -1,5 +1,7 @@
 from flask import Flask, render_template, url_for, flash, request
 from forms import CreditCardForm
+from static.cc_urls import *
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '1781a2dc5ae8f2ad5e941dbe90d58b8e'
@@ -53,7 +55,7 @@ def cashback():
         best_cards, select_cat, member_rec, card_names, mult = form.calculate_cb()
     return render_template('cashback.html', title='Cash Back Calculator', form=form,
                            best_cards=best_cards, select_cat=select_cat, member_rec=member_rec,
-                           card_names=card_names, mult=mult)
+                           card_names=card_names, mult=mult, cc_urls=cc_urls)
 
 
 if __name__ == '__main__':
