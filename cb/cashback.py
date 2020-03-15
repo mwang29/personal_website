@@ -53,7 +53,7 @@ def process_data(boa_multiplier):
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     max_cb, best_combo, member_rec = 0, False, {}
     if num_cards > 3:
-        additional_cards = num_cards - 4
+        additional_cards = num_cards - 3
         num_cards = 3
     else:
         additional_cards = 0
