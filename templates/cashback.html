@@ -150,7 +150,7 @@
                       {% if (key == 'us_bank' and id == "usbank") or
                             (key == 'boa' and id == "boa") %}
                         {% for cat in val %}
-                            <li>{{ cat }}</li>
+                            <li>{{ cat|replace("_", " ")}}</li>
                         {% endfor %}
                       {% endif %}
                 {% endfor %}

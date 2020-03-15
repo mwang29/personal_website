@@ -11,9 +11,9 @@ def process_data(boa_multiplier):
 
     card_vectors = data[categories]
     us_bank_cats = card_vectors.loc[0, card_vectors.columns !=
-                                    'Foreign Transactions'].to_numpy().nonzero()[0]
+                                    'Foreign_Transactions'].to_numpy().nonzero()[0]
     boa_cats = card_vectors.loc[4, card_vectors.columns !=
-                                'Foreign Transactions'].to_numpy().nonzero()[0]
+                                'Foreign_Transactions'].to_numpy().nonzero()[0]
     us_bank_combinations = combinations(us_bank_cats, 2)
     boa_combinations = combinations(boa_cats, 1)
 
@@ -53,7 +53,7 @@ def process_data(boa_multiplier):
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     max_cb, best_combo, member_rec = 0, False, {}
     if num_cards > 3:
-        additional_cards = num_cards - 3
+        additional_cards = num_cards - 4
         num_cards = 3
     else:
         additional_cards = 0
