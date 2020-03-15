@@ -25,7 +25,12 @@
                     <div class="article-metadata">
                     <small class="text-muted">{{ post.date_posted }}</small>
                   </div>
-                  <p class="article-content">{{ post.content }}</p>
+                  {% for para in post.content %}
+                    <p class="article-content">{{ para }}</p>
+                  {% endfor %}
+                  {% for img in post.images %}
+                      <img src={{img}} style='height: 100%; width: 100%; object-fit: contain'>
+                  {% endfor %}
                 </div>
               </article>
           {% endfor %}
