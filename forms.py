@@ -1,45 +1,46 @@
 import numpy as np
 from flask_wtf import FlaskForm
 from wtforms import DecimalField, IntegerField, SubmitField, SelectField, BooleanField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms.validators import InputRequired, NumberRange, Optional
 from cb.cashback import process_data, calc_cb, calc_stats
 
 
 class CreditCardForm(FlaskForm):
-  total_spend = DecimalField('Total Monthly Spend', places=2, rounding=None,
-                             validators=[InputRequired()])  # required field
-  groceries = DecimalField('Groceries',
-                           validators=[InputRequired()])
-  gas = DecimalField('Gas',
-                     validators=[InputRequired()])
-  restaurants = DecimalField('Restaurants',
-                             validators=[InputRequired()])
+  total_spend = DecimalField('Total Monthly Spend', validators=[Optional()], render_kw={
+      "placeholder": "0"})  # required field
+  groceries = DecimalField('Groceries', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  gas = DecimalField('Gas', validators=[Optional()], render_kw={
+                     "placeholder": "0"})
+  restaurants = DecimalField('Restaurants', validators=[Optional()], render_kw={
+      "placeholder": "0"})
   entertainment = DecimalField('Entertainment',
-                               validators=[InputRequired()])
-  travel = DecimalField('Travel',
-                        validators=[InputRequired()])
-  utilities = DecimalField('Utilities',
-                           validators=[InputRequired()])
-  cell_carrier = DecimalField('Cell Phone Carrier',
-                              validators=[InputRequired()])
-  gym = DecimalField('Gym/Fitness Memberships',
-                     validators=[InputRequired()])
-  online_shopping = DecimalField('Online Shopping, not including Amazon',
-                                 validators=[InputRequired()])
-  amazon = DecimalField('Amazon',
-                        validators=[InputRequired()])
-  home_improvement = DecimalField('Home Improvement',
-                                  validators=[InputRequired()])
-  internet = DecimalField('Internet, Cable, Streaming Services',
-                          validators=[InputRequired()])
-  sporting_goods = DecimalField('Sporting Good Stores',
-                                validators=[InputRequired()])
-  apple = DecimalField('Apple Store',
-                       validators=[InputRequired()])
-  foreign_transaction = DecimalField('Foreign Transactions',
-                                     validators=[InputRequired()])
-  rideshare = DecimalField('Rideshares (Uber/Lyft)',
-                           validators=[InputRequired()])
+                               validators=[Optional()], render_kw={
+                                   "placeholder": "0"})
+  travel = DecimalField('Travel', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  utilities = DecimalField('Utilities', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  cell_carrier = DecimalField('Cell Phone Carrier', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  gym = DecimalField('Gym/Fitness Memberships', validators=[Optional()], render_kw={
+                     "placeholder": "0"})
+  online_shopping = DecimalField('Online Shopping, not including Amazon', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  amazon = DecimalField('Amazon', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  home_improvement = DecimalField('Home Improvement', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  internet = DecimalField('Internet, Cable, Streaming Services', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  sporting_goods = DecimalField('Sporting Good Stores', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  apple = DecimalField('Apple Store', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  foreign_transaction = DecimalField('Foreign Transactions', validators=[Optional()], render_kw={
+      "placeholder": "0"})
+  rideshare = DecimalField('Rideshares (Uber/Lyft)', validators=[Optional()], render_kw={
+      "placeholder": "0"})
   num_cards = IntegerField('How many credit cards do you prefer to carry? (1-8)',
                            validators=[InputRequired(),
                                        NumberRange(min=1, max=8,
@@ -49,7 +50,8 @@ class CreditCardForm(FlaskForm):
   costco_member = BooleanField('Costco Member:')
   sams_member = BooleanField("Sam's Club Member:")
   boa_amt = DecimalField(
-      'Capital in existing Bank of America accounts', validators=[InputRequired()])
+      'Capital in existing Bank of America accounts', validators=[Optional()], render_kw={
+          "placeholder": "0"})
 
   submit = SubmitField('Calculate!')
 
@@ -66,6 +68,8 @@ class CreditCardForm(FlaskForm):
 
   def get_boa_multiplier(self):
     boa_multiplier = 1
+    if self.boa_amt.data == None:
+      self.boa_amt.data = 0
     if self.boa_amt.data >= 100000:
       boa_multiplier = 1.75
     elif self.boa_amt.data >= 50000:
@@ -75,7 +79,8 @@ class CreditCardForm(FlaskForm):
     return boa_multiplier
 
   def get_spend_attr(self):
-    total_spend = self.total_spend.data
+    if self.total_spend.data == None:
+      total_spend = 0
     temp_spend = [self.groceries.data, self.gas.data,
                   self.restaurants.data, self.entertainment.data,
                   self.travel.data, self.utilities.data,
@@ -84,6 +89,7 @@ class CreditCardForm(FlaskForm):
                   self.home_improvement.data, self.internet.data,
                   self.sporting_goods.data, self.apple.data,
                   self.foreign_transaction.data, self.rideshare.data]
+    temp_spend = [0 if v is None else v for v in temp_spend]
     other = max(total_spend - sum(temp_spend), 0)
     temp_spend.append(other)
     spend = [int(i) for i in temp_spend]
