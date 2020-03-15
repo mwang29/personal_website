@@ -43,7 +43,7 @@ class CreditCardForm(FlaskForm):
     num_cards = IntegerField('How many credit cards do you prefer to carry? (1-8)',
                              validators=[InputRequired(),
                                          NumberRange(min=1, max=8,
-                                                     message="Please enter a number between 1 and 6")],
+                                                     message="Please enter a number between 1 and 8")],
                              default=2)
     amazon_member = BooleanField('Amazon Member:')
     costco_member = BooleanField('Costco Member:')
