@@ -81,6 +81,8 @@ class CreditCardForm(FlaskForm):
   def get_spend_attr(self):
     if self.total_spend.data == None:
       total_spend = 0
+    else:
+      total_spend = self.total_spend.data
     temp_spend = [self.groceries.data, self.gas.data,
                   self.restaurants.data, self.entertainment.data,
                   self.travel.data, self.utilities.data,
@@ -92,7 +94,7 @@ class CreditCardForm(FlaskForm):
     temp_spend = [0 if v is None else v for v in temp_spend]
     other = max(total_spend - sum(temp_spend), 0)
     temp_spend.append(other)
-    spend = [int(i) for i in temp_spend]
+    spend = [float(i) for i in temp_spend]
     spend = np.array(spend)
 
     attr = {'amazon_member': self.amazon_member.data,
