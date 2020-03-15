@@ -53,7 +53,7 @@ def process_data(boa_multiplier):
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     max_cb, best_combo, member_rec = 0, False, {}
     if num_cards > 3:
-        additional_cards = num_cards - 4
+        additional_cards = num_cards - 3
         num_cards = 3
     else:
         additional_cards = 0
@@ -109,7 +109,6 @@ def calc_stats(spend, max_cb):
     avg_cb = max_cb / sum(spend)
     annual_cb = max_cb * 12
     return avg_cb, annual_cb
-
 
 
 def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
