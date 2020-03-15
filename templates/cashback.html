@@ -169,7 +169,7 @@
         {% endfor %}
         </div>
     {% endfor %}
-    After all applicable fees, you would be earning <b>${{'%0.2f' % annual_cb|float}}</b> per year in cash back!
+    After all applicable fees, you would be earning <b>{{ "${:,.2f}".format(annual_cb)}}</b> per year in cash back!
 {% endif %}
     </div>
         </div>
