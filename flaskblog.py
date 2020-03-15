@@ -20,7 +20,7 @@ def about():
 
 @app.route('/blog')
 def blog():
-    return render_template('blog.html', title="Blog", posts=posts)
+    return render_template('blog.html', title="Blog")
 
 
 @app.route('/resume')
