@@ -80,6 +80,7 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
             all_cards = [i for i in all_cards if i not in us_bank]
         if boa_overlap:
             all_cards = [i for i in all_cards if i not in us_bank]
+        all_cards = list(set(all_cards))
 
         for c in range(additional_cards):
             for new_card in all_cards:

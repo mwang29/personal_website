@@ -116,7 +116,7 @@
 
 {% if best_cards != None %}
 <br>
-    <h2 id='result'>Your optimal selection of credit cards is: {{best_cards}}</h2>
+    <h2 id='result'>Your optimal selection of credit cards is:</h2>
     <br>
     {% set best_cards = best_cards | unique %}
     {% for card_row in best_cards | batch(3) %}
