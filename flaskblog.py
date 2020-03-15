@@ -6,15 +6,10 @@ app.config['SECRET_KEY'] = '1781a2dc5ae8f2ad5e941dbe90d58b8e'
 
 posts = [
     {
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'February 20, 2020'
+        'title': 'My first website!',
+        'content': 'Content goes here',
+        'date_posted': 'March 14, 2020'
     },
-    {
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'February 21, 2020'
-    }
 ]
 
 
@@ -51,10 +46,11 @@ def contact():
 
 @app.route('/cashback', methods=['GET', 'POST'])
 def cashback():
-    best_cards, select_cat, member_rec, card_names, cat_card_dict, mult = None, {}, {}, None, None, None
+    best_cards, select_cat, member_rec, card_names, cat_card_dict, mult = None, {
+    }, {}, None, None, None
     form = CreditCardForm()
     if form.validate_on_submit():
-        best_cards, select_cat, member_rec, card_names, mult= form.calculate_cb()
+        best_cards, select_cat, member_rec, card_names, mult = form.calculate_cb()
     return render_template('cashback.html', title='Cash Back Calculator', form=form,
                            best_cards=best_cards, select_cat=select_cat, member_rec=member_rec,
                            card_names=card_names, mult=mult)
