@@ -21,16 +21,16 @@
            {% for post in posts %}
               <article class="media content-section">
                 <div class="media-body">
-                  <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+                  <h2><a class="article-title" href="#">Smash Bros. at Purdue</a></h2>
                     <div class="article-metadata">
-                    <small class="text-muted">{{ post.date_posted }}</small>
+                    <small class="text-muted">March 14, 2020</small>
                   </div>
-                  {% for para in post.content %}
-                    <p class="article-content">{{ para }}</p>
-                  {% endfor %}
-                  {% for img in post.images %}
-                      <img src={{img}} style='height: 100%; width: 100%; object-fit: contain'>
-                  {% endfor %}
+                    <p>One of my hobbies is competing in Super Smash Bros. Melee, a fighting game that released way back in 2001. Despite its age, it's still popular today thanks to a community of passionate gamers. At Purdue University, we have one of the strongest college Melee scenes in the country with 30-40 active players.</p>
+                    <p>I know it sounds crazy, but this game has assuredly improved my life in multiple aspects. Melee gave me an outlet for my competitive nature and a way to challenge myself to learn and improve. It's a great way to escape the stress of academics, and I've made many lifelong friends over the years.</p>
+                    <p>A couple weeks ago, Purdue hosted a large regional tournament called 'BOPME' or 'Best of Purdue Melee Enthusiasts'. For its 19th iteration, I helped organize the tournament by seeding attendees and assisting with day-of logistics. Seeding is the process of ranking players in the bracket so that the pairings are fair. Proper seeding ensures players of higher skill level do not play against each other until later rounds of the bracket. It also minimizes the probability that players in the same region will have to play each other.</p>
+                    <p>The traditional method of seeding is usually a trial-and-error approach where the tournament organizer would test out various combinations until one is deemed 'good enough'. I knew there was a better way, so I made a Google Sheet that automates most of the process. You can find it in my <a href="{{ url_for('projects', _anchor='projects') }}">projects.</a> The tournament ran very smoothly and attendees were satisified with the seeding. I'm happy that future tournaments can reuse this tool to save time and energy that could be spent on other aspects of the tournament.</p>
+                    <p>The tournament ran on time, there were many high-quality matches, and the attendees were satisfied. It was my first time helping run a larger tournament in this capacity - it felt good to give back to the community that has given me so much.</p>
+                    <img src='../static/img/smash.jpg' style='height: 100%; width: 100%; object-fit: contain'>
                 </div>
               </article>
           {% endfor %}
