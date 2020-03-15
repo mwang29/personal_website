@@ -116,9 +116,10 @@
 
 {% if best_cards != None %}
 <br>
-    <h2 id='result'>Your optimal selection of credit cards is:</h2>
+    <h2 id='result'>Your optimal selection of credit cards is: {{best_cards}}</h2>
     <br>
-    {% for card_row in best_cards | batch(3)%}
+    {% set best_cards = best_cards | unique %}
+    {% for card_row in best_cards | batch(3) %}
         <!-- /.row -->
         <div class="row">
         {% for card in card_row %}
@@ -169,9 +170,9 @@
         {% endfor %}
         </div>
     {% endfor %}
+    After all applicable fees, you would be earning <b>${{'%0.2f' % annual_cb|float}}</b> per year in cash back!
 {% endif %}
     </div>
-    After all applicable fees, you would be earning <b>${{'%0.2f' % annual_cb|float}}</b> per year in cash back!
         </div>
       </div>
     </main>

@@ -48,7 +48,7 @@ def cashback():
                                card_names=card_names, mult=mult, cc_urls=cc_urls, avg_cb=avg_cb,
                                annual_cb=annual_cb)
     else:
-        return render_template('cashback.html', title='Cash Back Calculator', form=form)
+        return render_template('cashback.html', title='Cash Back Calculator', form=form, best_cards=None)
 
 
 if __name__ == '__main__':
