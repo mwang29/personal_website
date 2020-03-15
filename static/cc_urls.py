@@ -16,4 +16,4 @@ urls = ['https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=Ci
         'https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/',
         'https://cashplus.usbank.com/']
 
-cc_urls = dict(zip(range(0, 17), urls))
+cc_urls = dict(zip(list(range(0, 15)) + ['boa', 'usbank'], urls))
