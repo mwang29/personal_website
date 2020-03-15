@@ -80,18 +80,27 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
             all_cards = [i for i in all_cards if i not in us_bank]
         if boa_overlap:
             all_cards = [i for i in all_cards if i not in us_bank]
-        all_cards = list(set(all_cards))
 
-        for c in range(additional_cards):
-            for new_card in all_cards:
+        added_cards = []  # empty list of additional cards we decide to add after 3 optimal
+
+        for c in range(additional_cards):  # for each additional card slot
+            # only look at non added cards
+            us_bank_overlap = [i for i in us_bank if i in added_cards]
+            boa_overlap = [i for i in boa if i in added_cards]
+            if us_bank_overlap:
+                all_cards = [i for i in all_cards if i not in us_bank]
+            if boa_overlap:
+                all_cards = [i for i in all_cards if i not in boa]
+            for new_card in all_cards:  # for all potential cards we can add,
                 temp_cb = calc_temp_cb(
                     card_vectors, spend, best_combo + [new_card], num_cards, attr)
-                if temp_cb > max_cb:
+                if temp_cb > max_cb:  # which is the next card we should add?
                     max_cb = temp_cb
-                    additional_card = new_card
-            if max_cb > before_cb:
-                best_combo.append(additional_card)
+                    best_card = new_card
+            if max_cb > before_cb:  # if the card improves our cash back
+                best_combo.append(best_card)
                 before_cb = max_cb
+                added_cards.append(best_card)
 
     select_cat = {}
     # Which categories of choose cards selected?
