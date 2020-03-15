@@ -138,18 +138,18 @@ def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
         temp_cb = sum(np.multiply(best_cb, spend))
 
     if 1 in uniquecomb:
-        temp_cb -= 95 / 12
+        temp_cb -= float(95) / 12
     if 6 in uniquecomb:
-        temp_cb -= 99 / 12
+        temp_cb -= float(99) / 12
     if 14 in uniquecomb:
-        temp_cb -= 95 / 12
+        temp_cb -= float(95) / 12
     # Membership costs
     if 11 in uniquecomb and not attr['sams_member']:
-        temp_cb -= 45 / 12
+        temp_cb -= float(45) / 12
     if 3 in uniquecomb and not attr['amazon_member']:
-        temp_cb -= 119 / 12
+        temp_cb -= float(119) / 12
     if 0 in uniquecomb and not attr['costco_member']:
-        temp_cb -= 60 / 12
+        temp_cb -= float(60) / 12
 
     return temp_cb
 
