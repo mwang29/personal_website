@@ -86,7 +86,8 @@ class CreditCardForm(FlaskForm):
         max_cb, best_combo, member_rec, select_cat = calc_cb(
             comb_dict, num_cards, card_vectors, card_names, spend, attr)
         avg_cb, annual_cb = calc_stats(spend, max_cb)
-        # best_cards = self.get_best_cards(card_names, best_combo)
+        if not best_combo:
+            best_combo = [4]  # if no best, then set to citi double cash
         results = {'best_combo': best_combo, 'select_cat': select_cat,
                    'member_rec': member_rec, 'card_names': card_names,
                    'mult': boa_multiplier, 'avg_cb': avg_cb,

@@ -1,22 +1,37 @@
+'''
+Python backend for calculating cash back. Can operate as a script by itself
+without using flask app by running 'python cashback.py'
+
+Made by Michael Wang in 2020
+'''
+
 import pandas as pd
 import numpy as np
 from itertools import combinations, product
 
 
 def process_data(boa_multiplier):
-    # Create card vectors
+    '''Processes csv file based on boa multiplier and returns
+    intermediate logical dictionary 'comb_dict' to work with US bank
+    and BOA cards (assigning all combinations of choices to one card)
+    , a pandas dataframe 'card_vectors' that gives all rows of each
+    possible card's rewards, and 'card_names' which is a list of the
+    card names for all card rewards.
+    '''
     data = pd.read_csv('card_data.csv')
     categories = list(data.columns)[2:]
     card_names = list(data.Card_Name)
-
     card_vectors = data[categories]
+
     us_bank_cats = card_vectors.loc[0, card_vectors.columns !=
-                                    'Foreign_Transactions'].to_numpy().nonzero()[0]
+                                    'Foreign_Transactions']
+    us_bank_cats = us_bank_cats.to_numpy().nonzero()[0]
+    us_bank_combinations = combinations(us_bank_cats, 2)
     boa_cats = card_vectors.loc[4, card_vectors.columns !=
                                 'Foreign_Transactions'].to_numpy().nonzero()[0]
-    us_bank_combinations = combinations(us_bank_cats, 2)
     boa_combinations = combinations(boa_cats, 1)
 
+    # intermediate df for for each choice of 2 categories in us bank card
     us_bank_vec = []
     for c in us_bank_combinations:
         temp_row = np.zeros(len(categories))
@@ -25,6 +40,7 @@ def process_data(boa_multiplier):
         card_names.append(card_names[0])
     us_bank_df = pd.DataFrame(us_bank_vec, columns=categories)
 
+    # intermediate df for for each choice of 1 category in boa card
     boa_vec = []
     for c in boa_combinations:
         temp_row = np.zeros(len(categories))
@@ -33,15 +49,18 @@ def process_data(boa_multiplier):
         card_names.append(card_names[4])
     boa_df = pd.DataFrame(boa_vec, columns=categories)
 
+    # remove original boa and us bank rows, and remove from card names
     card_vectors = card_vectors.drop(
         index=card_vectors.index[[0, 4]]).reset_index(drop=True)
-
-    card_vectors = card_vectors.append(us_bank_df, ignore_index=True)
-    boa_df *= boa_multiplier
-    card_vectors = card_vectors.append(boa_df, ignore_index=True)
     del card_names[4]
     del card_names[0]
 
+    # attach intermediate rows
+    card_vectors = card_vectors.append(us_bank_df, ignore_index=True)
+    boa_df *= boa_multiplier
+    card_vectors = card_vectors.append(boa_df, ignore_index=True)
+
+    # assign index of new rows to us bank and boa card names
     comb_dict = {}
     for i in range(0, 15):
         comb_dict[card_names[i]] = [i]
@@ -51,6 +70,9 @@ def process_data(boa_multiplier):
 
 
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
+    '''
+
+    '''
     max_cb, best_combo, member_rec = 0, False, {}
     if num_cards > 3:
         additional_cards = num_cards - 3
