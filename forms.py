@@ -1,11 +1,22 @@
+'''
+Handles all forms on personal website. Includes cash back calculator form
+and its methods for returning information to the html file.
+
+Made by Michael Wang in 2020.
+'''
+
 import numpy as np
 from flask_wtf import FlaskForm
-from wtforms import DecimalField, IntegerField, SubmitField, SelectField, BooleanField
+from wtforms import DecimalField, IntegerField, SubmitField, BooleanField
 from wtforms.validators import InputRequired, NumberRange, Optional
 from cb.cashback import process_data, calc_cb, calc_stats
 
 
 class CreditCardForm(FlaskForm):
+    '''
+    Class for accepting user input, processing the input, and passing the
+    output to html to show user results
+    '''
     prompt = "Please enter a number between 1 and 8"
     total = DecimalField('Total Monthly Spend',
                          validators=[Optional()],
@@ -64,6 +75,10 @@ class CreditCardForm(FlaskForm):
     submit = SubmitField('Calculate!')
 
     def calculate_cb(self):
+        '''
+        Calls other methods to calculate cash back and
+        returns all necessary output in a dictionary
+        '''
         num_cards = self.num_cards.data
         boa_multiplier = self.get_boa_multiplier()
         spend, attr = self.get_spend_attr()
@@ -71,10 +86,19 @@ class CreditCardForm(FlaskForm):
         max_cb, best_combo, member_rec, select_cat = calc_cb(
             comb_dict, num_cards, card_vectors, card_names, spend, attr)
         avg_cb, annual_cb = calc_stats(spend, max_cb)
-        best_cards = self.get_best_cards(card_names, best_combo)
-        return best_cards, select_cat, member_rec, card_names, boa_multiplier, avg_cb, annual_cb
+        # best_cards = self.get_best_cards(card_names, best_combo)
+        results = {'best_combo': best_combo, 'select_cat': select_cat,
+                   'member_rec': member_rec, 'card_names': card_names,
+                   'mult': boa_multiplier, 'avg_cb': avg_cb,
+                   'annual_cb': annual_cb}
+        return results
 
     def get_boa_multiplier(self):
+        '''
+        Depending on capital in existing BOA accounts, the user
+        qualifies for a rewards level that increases cash back.
+        This function decides the multiplier used in the calculation.
+        '''
         boa_multiplier = 1
         if self.boa_amt.data is None:
             self.boa_amt.data = 0
@@ -87,6 +111,10 @@ class CreditCardForm(FlaskForm):
         return boa_multiplier
 
     def get_spend_attr(self):
+        '''
+        Compiles completed form into a spend array used in calculations
+        for cash back. Also keeps track of whether or not members
+        '''
         if self.total.data is None:
             total_spend = 0
         else:
@@ -110,14 +138,3 @@ class CreditCardForm(FlaskForm):
                 'sams_member': self.sams_member.data}
 
         return spend, attr
-
-    @staticmethod
-    def get_best_cards(card_names, best_combo):
-        best_cards = []
-        if best_combo:
-            cards = [card_names[i] for i in best_combo]
-            for card in cards:
-                best_cards.append(card)
-        else:
-            best_cards = ['Citi Double Cash Card']
-        return best_cards
