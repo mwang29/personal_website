@@ -64,7 +64,7 @@ class CreditCardForm(FlaskForm):
                              validators=[InputRequired(),
                                          NumberRange(min=1, max=8,
                                                      message=prompt)],
-                             default=2)
+                             default=1)
     amazon_member = BooleanField('Amazon Member:')
     costco_member = BooleanField('Costco Member:')
     sams_member = BooleanField("Sam's Club Member:")
