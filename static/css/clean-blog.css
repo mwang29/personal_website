@@ -509,6 +509,6 @@ header .overlay {
 
 .card-img-top {
     width: 100%;
-    height: 5vw;
+    height: 10vw;
     object-fit: cover;
 }
