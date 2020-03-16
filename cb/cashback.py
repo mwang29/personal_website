@@ -71,14 +71,24 @@ def process_data(boa_multiplier):
 
 def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
     '''
+    Main function to calculate the best combination of credit cards
+    to maximize cash back.
 
+    Params
+        comb_dict: dict : mapping of card names to respective row indices
+        num_cards: int  : number of cards desired by user
+        card_vectors: df: dataframe of cash back percentages for each selection
+        card_names: list: list of names for each row in card_vectors
+        spend: np array : input spend of each category
+        attr: dict      : whether or not user is member of clubs
     '''
-    max_cb, best_combo, member_rec = 0, False, {}
+
+    # decide number of cards to guarantee optimization, then use heuristic
+    max_cb, best_combo, member_rec, additional_cards = 0, [4], {}, 0
     if num_cards > 3:
         additional_cards = num_cards - 3
         num_cards = 3
-    else:
-        additional_cards = 0
+
     # Iterate through all combinations based on rules set by dictionary
     for comb in combinations(sorted(comb_dict), num_cards):
         for uniquecomb in product(*[comb_dict[i] for i in comb]):
@@ -89,8 +99,8 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
                 best_combo = uniquecomb
                 member_rec = recommend_membership(attr, uniquecomb)
 
+    # If we chose more than 3 cards, use heuristic for the rest
     if additional_cards > 0:
-        print(comb_dict)
         best_combo = list(best_combo)
         before_cb = max_cb
         all_cards = range(len(comb_dict))
@@ -103,7 +113,8 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
         if boa_overlap:
             all_cards = [i for i in all_cards if i not in us_bank]
 
-        added_cards = []  # empty list of additional cards we decide to add after 3 optimal
+        # empty list of additional cards we decide to add after 3 optimal
+        added_cards = []
 
         for c in range(additional_cards):  # for each additional card slot
             # only look at non added cards
@@ -114,8 +125,9 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
             if boa_overlap:
                 all_cards = [i for i in all_cards if i not in boa]
             for new_card in all_cards:  # for all potential cards we can add,
-                temp_cb = calc_temp_cb(
-                    card_vectors, spend, best_combo + [new_card], num_cards, attr)
+                temp_cb = calc_temp_cb(card_vectors, spend,
+                                       best_combo + [new_card],
+                                       num_cards, attr)
                 if temp_cb > max_cb:  # which is the next card we should add?
                     max_cb = temp_cb
                     best_card = new_card
@@ -138,37 +150,50 @@ def calc_cb(comb_dict, num_cards, card_vectors, card_names, spend, attr):
 
 
 def calc_stats(spend, max_cb):
+    '''
+    Simple function to calculate annual and avg cash back
+    given our max cash back.
+    '''
     avg_cb = max_cb / sum(spend)
     annual_cb = max_cb * 12
     return avg_cb, annual_cb
 
 
 def calc_temp_cb(card_vectors, spend, uniquecomb, num_cards, attr):
+    '''
+    For each selection of card combinations, calculates the cash back
+    we would get. Handles all card types available.
+    '''
+
     # calculate discover cash back advantage
     # calculate earnings in cats
     if 7 in uniquecomb and num_cards > 1:
-        temp_cb = sum(np.multiply(
-            card_vectors.iloc[7, :].to_numpy(), spend))
-        # get non-discover cards in uniquecomb
+        temp_cb = sum(np.multiply(card_vectors.iloc[7, :].to_numpy(),
+                                  spend))
 
-        other_cards = np.array(
-            [card for card in uniquecomb if card != 7])
-        cb_indices = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[
-            0]  # indices of discover categories
-        other_cb = sum(np.multiply(
-            card_vectors.iloc[other_cards, cb_indices].to_numpy()[0], spend[cb_indices]))
+        # get non-discover cards in uniquecomb
+        other_cards = np.array([card for card in uniquecomb if card != 7])
+        # indices of discover categories
+        d_ind = np.array(card_vectors.iloc[7, :].to_numpy().nonzero())[0]
+        other_cb = sum(np.multiply(card_vectors.iloc[other_cards, d_ind].to_numpy()[0],
+                                   spend[d_ind]))
         # discover cash back in cats - other cards in those same cats divided by
         temp_cb = (temp_cb - other_cb) / 4
-        all_other_cb = sum(np.multiply(card_vectors.iloc[other_cards, :].to_numpy()[
-                           0], spend))  # leave out discover
+        all_other_cb = sum(np.multiply(card_vectors.iloc[other_cards, :].to_numpy()[0],
+                                       spend))
         temp_cb += all_other_cb  # add net cb to all other cards
+
+    # if discover is our only card
     elif 7 in uniquecomb:
         temp_cb = sum(np.multiply(
             card_vectors.iloc[7, :].to_numpy(), spend)) / 4
+
+    # if discover isn't there
     else:
         best_cb = card_vectors.iloc[list(uniquecomb), :].max(axis=0)
         temp_cb = sum(np.multiply(best_cb, spend))
 
+    # Annual fees subtract from cash back
     if 1 in uniquecomb:
         temp_cb -= float(95) / 12
     if 6 in uniquecomb:
@@ -208,12 +233,10 @@ if __name__ == "__main__":
     spend.append(int(input("Groceries: $")))
     spend.append(int(input("Gas: $")))
     spend.append(int(input("Eating out: $")))
-    spend.append(int(input(
-        "Entertainment (movies, plays, concert tickets, sporting events, etc.) : $")))
+    spend.append(int(input("Entertainment : $")))
     spend.append(int(input("Travel: $")))
     spend.append(int(input("Utilities: $")))
-    spend.append(
-        int(input("Cell phone carrier (including purchases made at physical store)): $")))
+    spend.append(int(input("Cell phone carrier: $")))
     spend.append(int(input("Gym/Fitness Memberships: $")))
     spend.append(int(input("Online Shopping (not including Amazon): $")))
     spend.append(int(input("Amazon.com: $")))

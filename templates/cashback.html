@@ -122,18 +122,17 @@
         <!-- /.row -->
         <div class="row">
         {% for card in card_row %}
+            {% if card >= 15 and card <= 24 %}
+                {% set id = "usbank" %}
+            {% elif card > 24 %}
+                {% set id = "boa" %}
+            {% else %}
+                {% set id = card %}
+            {% endif %}
           <div class="col-md-4 mb-5">
             <div class="card h-100">
-                {% if card >= 15 and card <= 24 %}
-                    {% set id = "usbank" %}
-                {% elif card > 24 %}
-                    {% set id = "boa" %}
-                {% else %}
-                    {% set id = card %}
-                {% endif %}
-
               <a href="{{cc_urls[id]}}" target="_blank"><img class="card-img-top" src="../static/img/CC_Images/{{id}}.jpg" alt=""></a>
-              <div class="card-body"><h4 class="card-title">{{card_names[id]}}</h4>
+              <div class="card-body"><h4 class="card-title">{{card_names[card]}}</h4>
                 {% if id == 'usbank' %}
                     <p class="card-text"> Choose the following 2 categories for cash back:</p>
                 {% elif id == 'boa' %}
