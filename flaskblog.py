@@ -43,10 +43,9 @@ def cashback():
     form = CreditCardForm()
     if form.validate_on_submit():
         best_cards, select_cat, member_rec, card_names, mult, avg_cb, annual_cb = form.calculate_cb()
-        return render_template('cashback.html', title='Cash Back Calculator', form=form,
-                               best_cards=best_cards, select_cat=select_cat, member_rec=member_rec,
-                               card_names=card_names, mult=mult, cc_urls=cc_urls, avg_cb=avg_cb,
-                               annual_cb=annual_cb)
+        results = {'best_cards': best_cards, 'select_cat': select_cat, 'member_rec': member_rec,
+                   'card_names': card_names, 'mult': mult, 'avg_cb': avg_cb, 'annual_cb': annual_cb, 'cc_urls': cc_urls}
+        return render_template('cashback.html', title='Cash Back Calculator', form=form, **results)
     else:
         return render_template('cashback.html', title='Cash Back Calculator', form=form, best_cards=None)
 
