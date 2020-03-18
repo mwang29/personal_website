@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Disease Solutions-Contact Us</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="tooplate_style.css" rel="stylesheet" type="text/css" />
+<!--   Free Website Template by t o o p l a t e . c o m   -->
+<script language="javascript" type="text/javascript">
+function clearText(field)
+{
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+</script>
+<script type="text/javascript" src="js/validate.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.lightbox-0.5.css" />
+
+<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.lightbox-0.5.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.lightbox-0.5.css" media="screen" />
+<!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+
+<!-- Ativando o jQuery lightBox plugin -->
+<script type="text/javascript">
+$(function() {
+    $('#map a').lightBox();
+});
+</script>
+
+</head>
+<body>
+
+<div id="tooplate_wrapper">
+
+    <div id="tooplate_header">
+
+        <div id="tooplate_menu">
+            <ul>
+                <li><a href="epidemic.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="demographics.html">Demographics</a></li>
+                <li><a href="simulator.html">Simulation</a></li>
+                <li><a href="policies.html">Policies</a></li>
+                <li><a href="contact2.html" class="current">Contact</a></li>
+            </ul>
+            <div class="cleaner"></div>
+        </div> <!-- end of menu -->
+        <br></br>
+        <div id="site_title"><h1><strong>Disease Solutions</strong><br></br><span>Leaders in Disaster Mitigation</span></h1></div>
+
+    </div> <!-- end of header -->
+
+    <div id="tooplate_middle">
+        <div id="search_box">
+            <form action="#" method="get">
+                <input type="text" value="Search" name="q" size="10" id="searchfield" title="searchfield" onfocus="clearText(this)" onblur="clearText(this)" />
+                <input type="submit" name="Search" value="" id="searchbutton" title="Search" />
+            </form>
+        </div> <!-- end of search box -->
+    </div> <!-- end of middle -->
+
+    <div id="tooplate_main">
+
+        <div id="tooplate_content">
+
+            <div class="col_w880 intro">
+                <h2>Contact Information</h2>
+                <p>Do you have feedback? Concerns? Ideas? We want to hear from you! Please fill out the form below to let us know what you think!
+                We value your opinion and look forward to receiving your input.<p>
+            </div>
+
+            <div class="col_w880 portfolio">
+
+                <div class="col_w400 float_l">
+
+                    <div id="contact_form">
+
+                        <h4>Contact Form</h4>
+                        <form method="post" name="contact" action="contact.php" onsubmit="return validate();">
+
+                            <label for="name">Name:</label> <input type="text" maxlength="40" id="name" class="input_field" name="name" />
+                            <div class="cleaner h10"></div>
+
+                            <label for="email">Email:</label> <input type="text" maxlength="40" id="email" class="input_field" name="email" />
+                            <div class="cleaner h10"></div>
+
+                            <label for="subject">Subject:</label> <input type="text" maxlength="40" id="subject" class="input_field" name="subject" />
+                            <div class="cleaner h10"></div>
+
+                            <label for="message">Message:</label> <textarea id="text" name="text" rows="0" cols="0" class="required"></textarea>
+                            <div class="cleaner h10"></div>
+
+                            <input type="submit" value="Send" id="submit" name="submit" class="submit_btn float_l" />
+
+                            <input type="reset" value="Reset" id="reset" name="reset" class="submit_btn float_r" />
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col_w400 float_r">
+                    <div id="map">
+                        <h4>Our Location</h4>
+                            <a href="images/map_big.jpg" title="Map">
+                            <img src="images/map_thumb.jpg" alt="Map" /></a>
+                    </div>
+
+                    <div class="cleaner h30"></div>
+                    <h4>Mailing Address</h4>
+
+                    <h6>Street Address</h6>
+                    111 Not Real Street, <br />
+                    West Lafayette, IN, 47907<br /><br />
+
+                    <h6>Phone Information</h6>
+                    Tel: 888-867-5309 <br />
+                    Fax: 888-867-5309 <br /> <br />
+
+                    <p>Note: this address and phone number are not real. </p>
+                </div>
+
+                <div class="cleaner"></div>
+            </div>
+
+        </div> <!-- end of content -->
+
+    </div>  <!-- end of main -->
+
+    <div id="tooplate_footer">
+
+        Copyright © 2018 <em>Disease Solutions</em>
+
+    </div> <!-- end of tooplate_footer -->
+</div> <!-- end of wrapper -->
+<!--   Free Website Template by t o o p l a t e . c o m   -->
+</body>
+</html>
