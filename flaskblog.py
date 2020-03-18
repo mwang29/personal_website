@@ -45,6 +45,36 @@ def contact():
     return render_template('contact.html', title="Contact")
 
 
+@app.route('/epidemic/epidemic')
+def epidemic():
+    return render_template('epidemic.html', title="Epidemic")
+
+
+@app.route('/epidemic/aboutus')
+def aboutus():
+    return render_template('aboutus.html', title="aboutus")
+
+
+@app.route('/epidemic/demographics')
+def demographics():
+    return render_template('demographics.html', title="demographics")
+
+
+@app.route('/epidemic/contact2')
+def contact2():
+    return render_template('contact2.html', title="contact2")
+
+
+@app.route('/epidemic/policies')
+def policies():
+    return render_template('policies.html', title="policies")
+
+
+@app.route('/epidemic/simulator')
+def simulator():
+    return render_template('simulator.html', title="simulator")
+
+
 @app.route('/cashback', methods=['GET', 'POST'])
 def cashback():
     form = CreditCardForm()
