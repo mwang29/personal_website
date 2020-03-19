@@ -516,9 +516,9 @@ header .overlay {
 
 .help-tip{
     position: absolute;
-    top: 18px;
-    right: 18px;
-    text-align: center;
+    top: 0px;
+    right: 0px;
+    text-align: left;
     background-color: #BCDBEA;
     border-radius: 50%;
     width: 24px;
@@ -526,6 +526,7 @@ header .overlay {
     font-size: 14px;
     line-height: 26px;
     cursor: default;
+    margin-top:10px;
 }
 
 .help-tip:before{
