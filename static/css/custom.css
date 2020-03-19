@@ -10,7 +10,7 @@
     font-size: 14px;
     line-height: 26px;
     cursor: default;
-    z-index: -999
+    z-index: -99999
 }
 
 
@@ -30,6 +30,7 @@
 }
 
 .help-tip p{    /* The tooltip */
+    position: absolute;
     display: none;
     text-align: left;
     background-color: #1E2021;
@@ -42,6 +43,7 @@
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
+    z-index: 99999
 }
 
 .help-tip p:before{ /* The pointer of the tooltip */
