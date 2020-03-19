@@ -58,7 +58,7 @@ class CreditCardForm(FlaskForm):
     foreign_transaction = DecimalField('Foreign Transactions',
                                        validators=[Optional()],
                                        render_kw={"placeholder": "0"})
-    rideshare = DecimalField('Rideshares (Uber/Lyft)', validators=[Optional()],
+    rideshare = DecimalField('Ground Transportation', validators=[Optional()],
                              render_kw={"placeholder": "0"})
     num_cards = IntegerField('How many credit cards? (1-8)',
                              validators=[InputRequired(),
