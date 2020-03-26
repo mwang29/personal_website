@@ -10,9 +10,7 @@
     font-size: 14px;
     line-height: 26px;
     cursor: default;
-    z-index: -9
 }
-
 
 .help-tip:before{
     content:'?';
@@ -42,6 +40,7 @@
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
+    z-index: 100;
 }
 
 .help-tip p:before{ /* The pointer of the tooltip */
