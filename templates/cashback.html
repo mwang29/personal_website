@@ -2,6 +2,7 @@
 {% block content %}
 
   <!-- Page Header -->
+
   <header class="masthead" style="background-image: url('../static/img/cashback-min.jpg')">
     <div class="overlay"></div>
     <div class="container">
@@ -31,76 +32,149 @@
             {% endif %}
           {% endwith %}
 
+<div class="col-sm-2"></div>
+    <div class="col-sm-10"></div>
+
     <div class="formwrapper">
-        <legend class="border-bottom mb-4">Enter monthly credit card spendings below ($):</legend>
+        <legend class="border-bottom mb-4">Enter approximate monthly credit card spendings below ($):</legend>
         <form method="POST" action="/cashback#result">
             {{ form.hidden_tag() }}
 
-                <div class="form-group row">{{ form.total.label(class="form=control-label col-sm-6")}}
-                <div class="col-sm-4"> $ {{ form.total(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.groceries.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.groceries.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Stores like Aldi, Kroger, Meijer, Giant Eagle, Whole Foods, etc. Does not include wholesale or big-box stores such as Costco, Walmart, and Sam's Club.</p>
+                </div></div>
+
+
                 <div class="col-sm-4"> $ {{ form.groceries(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.gas.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.gas.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Purchases made at merchants that primarily sell gas. Does not include gas sold at grocery stores.</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.gas(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.restaurants.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.restaurants.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Merchants whose primary business is sit-down or eat-in dining, including fast food restaurants, as well as fine-dining establishments </p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.restaurants(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.entertainment.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.entertainment.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Broad category, includes movie theaters, plays, concerts, sporting events, tourist attractions, theme parks, aquariums, zoos, dance clubs, bowling alleys, pool halls, record stores, and video rental locations</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.entertainment(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.travel.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.travel.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Airfare, hotels, car rental, travel agencies. <br /><br /><b>Tip:</b> Divide annual travel spending by 12 to calculate average monthly spending</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.travel(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.utilities.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.utilities.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>If able to pay utilities by card, this includes bills paid directly to your household utility providers. Excludes internet, cable, and telecom service providers, cell phone services, security system services, and similar merchants.</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.utilities(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.cell_carrier.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.cell_carrier.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Includes phones and accessories purchased directly from your cell phone service provider as well as bill payments made to your provider </p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.cell_carrier(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.gym.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.gym.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Membership fees at most sports and recreation facilities </p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.gym(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.online_shopping.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.online_shopping.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>All online and in-app purchases not made on Amazon.com</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.online_shopping(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.amazon.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.amazon.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Purchases made on Amazon.com or the Amazon mobile app</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.amazon(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.home_improvement.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.home_improvement.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Hardware store supplies, furniture, tools, contractors (plumbers, electricians, landscapers, and carpenters)</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.home_improvement(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.internet.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.internet.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>This category includes bills paid directly to your cable and internet service providers, as well as online streaming services</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.internet(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.sporting_goods.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.sporting_goods.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Dick's Sporting Goods, Cabela's, Bass Pro, REI, and similar merchants.</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.sporting_goods(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.apple.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.apple.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Apple Pay purchases made directly with Apple (including Apple stores, within the App Store and for Apple services). <br /><br /><b>Tip:</b> Divide annual spending on Apple by 12 to calculate average monthly spending</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.apple(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.foreign_transaction.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.foreign_transaction.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Total amount of spending (regardless of category) in foreign countries or on foreign websites that would induce a foreign transaction fee </p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.foreign_transaction(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.rideshare.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.rideshare.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Includes ride sharing services (Uber, Lyft), parking, taxi cabs, train fares, tolls, ferries, buses, subways, etc.</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.rideshare(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.amazon_member.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.total.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Total amount paid with credit card(s) per month, regardless of category. Does not necessarily equal the sum of previous categories.</p>
+                </div></div>
+                <div class="col-sm-4"> $ {{ form.total(class="form=control form-control-lg")}}</div></div>
+
+
+                <div class="form-group row"><div class="col-sm-6">{{ form.amazon_member.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Check the box if you are currently an Amazon Prime member</p>
+                </div></div>
                 <div class="col-sm-4"> &nbsp&nbsp&nbsp{{ form.amazon_member(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.costco_member.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.costco_member.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Check the box if you are currently a Costco member (any level)</p>
+                </div></div>
                 <div class="col-sm-4"> &nbsp&nbsp&nbsp{{ form.costco_member(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.sams_member.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.sams_member.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Check the box if you are currently a Sam's Club member (any level)</p>
+                </div></div>
                 <div class="col-sm-4">  &nbsp&nbsp&nbsp{{ form.sams_member(class="form=control form-control-lg")}}</div></div>
 
 
-                <div class="form-group row">{{ form.boa_amt.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.boa_amt.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Capital in existing BOA accounts may qualify you for additional cash back</p>
+                </div></div>
                 <div class="col-sm-4"> $ {{ form.boa_amt(class="form=control form-control-lg")}}</div></div>
 
-                <div class="form-group row">{{ form.num_cards.label(class="form=control-label col-sm-6")}}
+                <div class="form-group row"><div class="col-sm-6">{{ form.num_cards.label(class="form=control-label col-sm-12")}}</div>
+                <div class="col-sm-1"><div class="help-tip">
+                    <p>Number of cards used to maximize cash back. If an additional card will not increase cash back, it will not be shown.</p>
+                </div></div>
                 <div class="col-sm-4"> &nbsp&nbsp&nbsp{{ form.num_cards(class="form=control form-control-lg")}}</div></div>
 
             <div class="form-group col-sm-6"><div class="col-sm-4">{{ form.submit(class="btn btn-outline-info")}}</div>
@@ -109,8 +183,8 @@
         </form>
 
 {% for field, errors in form.errors.items() %}
-<div class="alert alert-error">
-    Error: {{ form[field].label }}: {{ ', '.join(errors) }}
+<div class="alert alert-error" id="result">
+    <font color="red"> <b>Error:&nbsp;&nbsp;</b> {{ form[field].label }} - {{ ', '.join(errors) }}.</font>
 </div>
 {% endfor %}
 
