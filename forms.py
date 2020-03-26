@@ -118,6 +118,7 @@ class CreditCardForm(FlaskForm):
             total_spend = 0
         else:
             total_spend = self.total.data
+
         temp_spend = [self.groceries.data, self.gas.data,
                       self.restaurants.data, self.entertainment.data,
                       self.travel.data, self.utilities.data,
@@ -127,6 +128,27 @@ class CreditCardForm(FlaskForm):
                       self.sporting_goods.data, self.apple.data,
                       self.foreign_transaction.data, self.rideshare.data]
         temp_spend = [0 if v is None else v for v in temp_spend]
+
+        # Take into account caps on categories
+        # groceries
+        temp_spend[0] = min(500, temp_spend[0])
+        # online shopping
+        temp_spend[8] = min(int(2500 / 3), temp_spend[8])
+        # home improvement
+        temp_spend[10] = min(int(2500 / 3), temp_spend[10])
+        # spending doesn't fall into category, includes overflow from capped
+
+        # us bank categories
+        us_bank_data = temp_spend[5:8]
+        min_value = min(us_bank_data)
+        min_index = us_bank_data.index(min_value)
+        us_bank_data[min_index] = 0
+        if sum(us_bank_data) > 500:
+            for i in [0, 1, 2]:
+                if i != min_index:
+                    us_bank_data[i] = 250
+        temp_spend[5:8] = us_bank_data
+
         other = max(total_spend - sum(temp_spend), 0)
         temp_spend.append(other)
         spend = [float(i) for i in temp_spend]
