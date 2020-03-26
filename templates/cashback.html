@@ -214,7 +214,7 @@
                     <p class="card-text"> {% if mult > 1 %}Your capital in existing Bank of America accounts qualifies you as a
                                             {% if mult < 1.3%} <b>Gold</b>{%set cb = 3.75 %} {% elif mult < 1.6 %} <b>Platinum</b> {%set cb = 4.5 %}
                                             {% else %} <b>Platinum Honors</b> {%set cb = 5.25 %}{% endif%} Rewards Member! {% endif %}</p>
-                                        <p>Choose the following category for <b>{{cb}}</b>% cash back: </p>
+                                        <p>Choose the following category for <b>{{cb}}%</b> cash back: </p>
                 {% else %}
                     <p class="card-text"> {% include 'card_descriptions/%s.html' % id %}</p>
 
