@@ -1,7 +1,8 @@
 .help-tip{
     position: absolute;
-    top: 18px;
-    right: 18px;
+    margin: auto;
+    top: 12px;
+    right: 15px;
     text-align: center;
     background-color: #BCDBEA;
     border-radius: 50%;
