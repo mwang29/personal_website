@@ -4,7 +4,6 @@ without using flask app by running 'python cashback.py'
 
 Made by Michael Wang in 2020
 '''
-
 import pandas as pd
 import numpy as np
 from itertools import combinations, product
